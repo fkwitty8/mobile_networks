@@ -11,21 +11,30 @@ class MovieModel{
   String title="";
   String category="";
 
-  table_create() async {
+ save() async {
+    bool success=false;
+    database_Factory_Ffi();
 
-    if (kIsWeb) {
-      // CRITICAL: Set the database factory to the Web implementation
-      databaseFactory = databaseFactoryFfiWeb;
-
-    } else if (defaultTargetPlatform == TargetPlatform.windows ||
-        defaultTargetPlatform == TargetPlatform.linux ||
-        defaultTargetPlatform == TargetPlatform.macOS) {
-      // This is the CRITICAL line for Desktop platforms:
-      sqfliteFfiInit();
-      databaseFactory = databaseFactoryFfi;
+    var db=await openDatabase(AppConfig.LOCAL_DB_PATH);
+    if (!db.isOpen){
+      print("db failed to open");
+      return;
     }
 
-    WidgetsFlutterBinding.ensureInitialized();
+    try{
+    int record_number=await db.insert(TABLE_NAME, this.toJson());
+    print("record no ${record_number} saved successfully!");
+    success=true;
+    return ;
+    }catch(e){
+      print(e);
+    }
+
+  }
+
+  table_create() async {
+
+    database_Factory_Ffi();
 
     var db=await openDatabase(AppConfig.LOCAL_DB_PATH);
     if (!db.isOpen){
@@ -41,5 +50,29 @@ class MovieModel{
     }catch (e){
       print(e);
     }
+  }
+
+  database_Factory_Ffi(){
+    if (kIsWeb) {
+      // CRITICAL: Set the database factory to the Web implementation
+      databaseFactory = databaseFactoryFfiWeb;
+
+    } else if (defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS) {
+      // This is the CRITICAL line for Desktop platforms:
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+
+    WidgetsFlutterBinding.ensureInitialized();
+    return;
+  }
+
+  toJson(){
+    return{
+      "tittle":this.title,
+      "category":this.category
+    };
   }
 }

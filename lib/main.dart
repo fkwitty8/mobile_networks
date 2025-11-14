@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_assessment/screens/database/sceen_database_create.dart';
 import 'package:mobile_assessment/screens/database/sceen_database_insert.dart';
+import 'package:mobile_assessment/screens/database/sceen_database_select.dart';
 import 'package:mobile_assessment/screens/sceen_column.dart';
 import 'package:mobile_assessment/screens/sceen_image.dart';
 import 'package:mobile_assessment/screens/sceen_json.dart';
@@ -126,6 +127,16 @@ class _HomeScreenState extends State<HomeScreen> {
               subtitle: Text("insert tables"),
               onTap: ()=>{
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> ScreenDatabaseInsert()))
+              },
+            ),
+
+            ListTile(
+              title: Text("select data from db"),
+              leading: Icon(Icons.home),
+              trailing: Icon(Icons.chevron_right),
+              subtitle: Text("select data from db tables"),
+              onTap: ()=>{
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> ScreenDatabaseSelect()))
               },
             ),
 
