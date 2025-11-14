@@ -10,7 +10,10 @@
 .history
 .svn/
 .swiftpm/
-migrate_working_dir/
+lib/assignment/db
+lib/assignment/models
+
+lib/muhindo_utube_17_tutorials/
 
 # IntelliJ related
 *.iml
